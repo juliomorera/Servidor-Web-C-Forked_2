@@ -41,7 +41,8 @@ const char* get_mime_type(const char* path) {
  * 
  * Esta función lee la solicitud del cliente, maneja solicitudes GET, y envía archivos desde el directorio 
  * especificado por `SERVER_ROOT`. Si el archivo solicitado no se encuentra, se envía un mensaje de error 404.
- * Si la solicitud no es un GET, se envía un mensaje de error 405.
+ * Si la solicitud no es un GET, se envía un mensaje de error 405. También imprime la ruta del archivo solicitado 
+ * para fines de depuración.
  * 
  * @param client_socket Descriptor del socket del cliente.
  */
@@ -65,6 +66,9 @@ void handle_request(int client_socket) {
 
         // Construir la ruta completa del archivo solicitada
         snprintf(file_path, sizeof(file_path), "%s%s", SERVER_ROOT, request_path);
+
+        // Imprimir en la consola la ruta del archivo solicitado para fines de depuración
+        printf("Requested file: %s\n", file_path);
 
         // Abrir el archivo solicitado
         file_fd = open(file_path, O_RDONLY);
